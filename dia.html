@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Tập Địa Lí 12 - THPT Phú Nhuận</title>
+    <style>
+        :root { --primary: #2563eb; --bg: #f8fafc; --text: #1e293b; --success: #22c55e; --error: #ef4444; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.5; padding: 20px; }
+        .container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        h1 { text-align: center; color: var(--primary); text-transform: uppercase; margin-bottom: 5px; }
+        .subtitle { text-align: center; margin-bottom: 30px; font-weight: bold; color: #64748b; }
+        h2 { background: #dbeafe; padding: 10px 15px; border-radius: 8px; color: #1e40af; font-size: 1.25rem; margin-top: 40px; border-left: 5px solid var(--primary); }
+        h3 { color: #475569; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px; margin-top: 25px; }
+        .q-block { margin-bottom: 25px; padding: 15px; border-radius: 10px; transition: background 0.3s; }
+        .q-block:hover { background: #f1f5f9; }
+        .q-text { font-weight: 600; margin-bottom: 12px; display: block; }
+        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        label { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; padding: 5px; border-radius: 5px; }
+        label:hover { background: #e2e8f0; }
+        .tf-row { display: flex; align-items: center; gap: 20px; margin-bottom: 8px; padding-left: 15px; }
+        .sa-input { padding: 8px; border: 2px solid #cbd5e1; border-radius: 6px; width: 120px; font-size: 1rem; }
+        .ans-box { display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-left: 4px solid var(--success); color: #166534; font-weight: bold; }
+        .btn-check { background: #64748b; color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; margin-top: 10px; }
+        .btn-check:hover { background: var(--primary); }
+        .controls { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 15px 25px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(37,99,235,0.4); }
+        @media (max-width: 600px) { .options { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Ôn Tập Địa Lí 12 - Cuối Kì 2</h1>
+    <p class="subtitle">Trường THPT Phú Nhuận - Năm học 2025-2026</p>
+
+    <div id="quiz-container">
+        </div>
+</div>
+
+<div class="controls">
+    <button class="btn-main" onclick="toggleAll()">HIỆN TẤT CẢ ĐÁP ÁN</button>
+</div>
+
+<script>
+const quizData = [
+    // BÀI 24
+    { topic: "BÀI 24. TRUNG DU VÀ MIỀN NÚI PHÍA BẮC", type: "header" },
+    { q: "Câu 1: Cây công nghiệp chủ lực của vùng Trung du và miền núi phía Bắc là", type: "mc", opts: ["A. hồ tiêu.", "B. cao su.", "C. chè", "D. cà phê."], a: "C" },
+    { q: "Câu 2: Thế mạnh lớn nhất của vùng Trung du và miền núi phía Bắc là", type: "mc", opts: ["A. nuôi trồng, đánh bắt hải sản.", "B. khai thác khoáng sản và thuỷ điện.", "C. chăn nuôi lợn và vịt đàn.", "D. trồng cây lương thực, rau quả."], a: "B" },
+    { q: "Câu 3: Giải pháp chủ yếu để nâng cao giá trị các sản phẩm khoáng sản khai thác ở Trung du và miền núi phía Bắc là", type: "mc", opts: ["A. đào tạo lao động, bảo vệ môi trường.", "B. tăng cường chế biến và xuất khẩu.", "C. phát triển mạng lưới giao thông, điện.", "D. tăng cường các hoạt động thăm dò."], a: "B" },
+    { q: "Câu 4: Ý nghĩa chủ yếu về mặt kinh tế của việc khai thác các thế mạnh ở vùng Trung du và miền núi phía Bắc là", type: "mc", opts: ["A. củng cố khối đại đoàn kết dân tộc.", "B. tạo ra nhiều việc làm, tăng thu nhập.", "C. bảo vệ an ninh quốc phòng biên giới.", "D. thúc đẩy chuyển dịch cơ cấu kinh tế."], a: "D" },
+    { q: "Câu 5: Thế mạnh nổi bật của vùng Trung du và miền núi Bắc Bộ là", type: "mc", opts: ["A. sản xuất cây lương thực.", "B. chăn nuôi gia súc lớn.", "C. nuôi thuỷ sản nước mặn.", "D. phát triển du lịch biển đảo."], a: "B" },
+    { q: "Câu 6: Thế mạnh nổi bật của vùng Trung du và miền núi Bắc Bộ không phải là", type: "mc", opts: ["A. phát triển thuỷ điện.", "B. phát triển cây công nghiệp, cây ăn quả.", "C. phát triển đánh bắt hải sản.", "D. khai thác và chế biến khoáng sản."], a: "C" },
+    { q: "Câu 7: Nguồn thức ăn cho chăn nuôi gia súc lớn ở Trung du và miền núi phía Bắc chủ yếu dựa vào", type: "mc", opts: ["A. hoa màu lương thực.", "B. phụ phẩm thuỷ sản.", "C. thức ăn công nghiệp.", "D. đồng cỏ tự nhiên."], a: "D" },
+    { q: "Câu 8: Thuận lợi chủ yếu của khí hậu đối với phát triển nông nghiệp của vùng Trung du và miền núi phía Bắc là tạo điều kiện để", type: "mc", opts: ["A. chăn nuôi nhiều vịt đàn.", "B. đa dạng hoá cây trồng, vật nuôi.", "C. nâng cao hệ số sử dụng đất.", "D. nâng cao trình độ thâm canh."], a: "B" },
+    { q: "Câu 9: Thuận lợi chủ yếu về mặt tự nhiên để hình thành vùng chuyên canh cây chè ở Trung du và miền núi phía Bắc là", type: "mc", opts: ["A. nhiệt độ và độ ẩm cao.", "B. đất feralit giàu dinh dưỡng.", "C. khí hậu và đất phù hợp.", "D. địa hình chủ yếu là đồi núi."], a: "C" },
+    { q: "Câu 10: Khó khăn lớn nhất trong việc khai thác khoáng sản ở Trung du và miền núi phía Bắc là", type: "mc", opts: ["A. thị trường tiêu thụ còn chưa được mở rộng.", "B. khoáng sản phân bố không đồng đều.", "C. đòi hỏi chi phí đầu tư lớn và công nghệ cao.", "D. thiếu lao động trình độ chuyên môn cao"], a: "C" },
+    { q: "Câu 1 (Đúng/Sai): Đặc điểm Trung du và miền núi phía Bắc", type: "tf", a: "a-Đ, b-S, c-Đ, d-Đ" },
+    { q: "Câu 2 (Đúng/Sai): Số lượng trâu vùng Trung du miền núi phía Bắc và cả nước", type: "tf", a: "a-S, b-Đ, c-Đ, d-Đ" },
+    { q: "Câu 1: Tính sản lượng thịt gia cầm hơi xuất chuồng năm 2021 tăng gấp mấy lần năm 2018?", type: "sa", a: "1.6" },
+    { q: "Câu 2: Mật độ dân số của vùng năm 2022 (người/km2)?", type: "sa", a: "137" },
+    { q: "Câu 3: Tính tổng diện tích một số cây trồng thế mạnh năm 2021 (nghìn ha)?", type: "sa", a: "634" },
+    { q: "Câu 4: Tính tỉ trọng đàn bò của vùng so với cả nước năm 2021 (%)?", type: "sa", a: "19.2" },
+    { q: "Câu 5: Tính năng suất ngô của vùng năm 2022 (tạ/ha)?", type: "sa", a: "42" },
+
+    // BÀI 26
+    { topic: "BÀI 26. ĐỒNG BẰNG SÔNG HỒNG", type: "header" },
+    { q: "Câu 1: Đồng bằng sông Hồng là vùng có", type: "mc", opts: ["A. cơ sở hạ tầng còn kém phát triển.", "B. nhiều tiềm năng phát triển kinh tế.", "C. chất lượng cuộc sống còn rất thấp.", "D. lao động đông nhưng trình độ thấp."], a: "B" },
+    { q: "Câu 2: Vùng Đồng bằng sông Hồng của nước ta hiện nay", type: "mc", opts: ["A. nhiều tài nguyên, lao động trình độ thấp.", "B. số lượng khu chế xuất ít nhất nước ta.", "C. giá trị sản xuất công nghiệp cao nhất nước.", "D. giao thông vận tải hạn chế."], a: "C" },
+    { q: "Câu 3: Ngành công nghiệp chế biến lương thực, thực phẩm ở ĐBSH phát triển mạnh dựa trên điều kiện chủ yếu là", type: "mc", opts: ["A. nguyên liệu và lao động.", "B. nguyên liệu và thị trường.", "C. nguyên liệu và cơ sở vật chất.", "D. nguyên liệu và nguồn vốn đầu tư."], a: "B" },
+    { q: "Câu 4: Ngành du lịch biển ở Đồng bằng sông Hồng hiện nay", type: "mc", opts: ["A. là ngành kinh tế có nhiều tiềm năng của vùng.", "B. chủ yếu là du khách quốc tế.", "C. diễn ra thuận lợi quanh năm, doanh thu tăng.", "D. tài nguyên du lịch biển kém đa dạng."], a: "A" },
+    { q: "Câu 5: Ngành nội thương của Đồng bằng sông Hồng hiện nay", type: "mc", opts: ["A. phát triển mạnh, nhất là ở các thành phố lớn.", "B. chỉ phát triển tại hệ thống siêu thị.", "C. doanh thu dịch vụ tiêu dùng đang giảm mạnh.", "D. phân bố đều khắp vùng, hàng hoá đa dạng"], a: "A" },
+    { q: "Câu 6: Thế mạnh chủ yếu để phát triển công nghiệp ở Đồng bằng sông Hồng là", type: "mc", opts: ["A. mức sống của người dân cao.", "B. lao động dồi dào, trình độ cao.", "C. giàu khoáng sản nhất nước ta.", "D. đồng bằng rộng lớn, đất đai màu mỡ."], a: "B" },
+    { q: "Câu 7: Việc phát triển nghề thủ công truyền thống ở ĐBSH hiện nay góp phần quan trọng nhất vào", type: "mc", opts: ["A. thúc đẩy quá trình công nghiệp hoá.", "B. thay đổi phân bố dân cư.", "C. giải quyết sức ép về vấn đề việc làm.", "D. đẩy nhanh chuyển dịch cơ cấu kinh tế."], a: "C" },
+    { q: "Câu 8: Với đất đai màu mỡ, khí hậu có mùa đông lạnh nên ĐBSH có thuận lợi để", type: "mc", opts: ["A. phát triển các ngành trình độ cao.", "B. phát triển các cây trồng vụ đông.", "C. phát triển du lịch biển quanh năm.", "D. phát triển giao thông vận tải."], a: "B" },
+    { q: "Câu 9: Thuận lợi chủ yếu để phát triển công nghiệp ở vùng ĐBSH là", type: "mc", opts: ["A. giáp Trung du và miền núi Bắc Bộ, giàu khoáng sản.", "B. thu hút vốn đầu tư, thị trường tiêu thụ lớn.", "C. nguồn nguyên liệu nông lâm thuỷ sản dồi dào.", "D. khí hậu nhiệt đới ẩm gió mùa."], a: "B" },
+    { q: "Câu 10: Ở ĐBSH tập trung nhiều di tích, lễ hội, các làng nghề truyền thống chủ yếu do", type: "mc", opts: ["A. nền kinh tế phát triển mạnh.", "B. chính sách đầu tư phát triển của Nhà Nước.", "C. có nhiều dân tộc anh em sinh sống.", "D. lịch sử khai thác lâu đời, sản xuất phát triển."], a: "D" },
+    { q: "Câu 1 (Đúng/Sai): Tiềm năng biển và dân cư ĐBSH", type: "tf", a: "a-S, b-S, c-Đ, d-Đ" },
+    { q: "Câu 2 (Đúng/Sai): Dân số và lao động ĐBSH năm 2021", type: "tf", a: "a-Đ, b-S, c-S, d-Đ" },
+    { q: "Câu 1: Cho biết mật độ dân số của vùng năm 2021 là bao nhiêu (người/km2)?", type: "sa", a: "1090" },
+    { q: "Câu 2: Tính giá trị xuất khẩu hàng hóa của ĐBSH năm 2021 (tỉ USD)?", type: "sa", a: "118" },
+    { q: "Câu 3: Cho biết năm 2021, ĐBSH chiếm bao nhiêu % giá trị sản xuất công nghiệp cả nước?", type: "sa", a: "37" },
+    { q: "Câu 4: Năng suất lúa của ĐBSH năm 2021 là bao nhiêu tạ/ha?", type: "sa", a: "62" },
+    { q: "Câu 5: Tính tốc độ tăng trưởng sản lượng thuỷ sản năm 2022 so với 2019 (%)?", type: "sa", a: "115" },
+
+    // BÀI 27
+    { topic: "BÀI 27. BẮC TRUNG BỘ", type: "header" },
+    { q: "Câu 1: Thế mạnh để phát triển nuôi trồng thuỷ sản ở Bắc Trung Bộ là", type: "mc", opts: ["A. có nhiều ngư trường trọng điểm.", "B. công nghiệp chế biến hiện đại.", "C. có nhiều vũng vịnh, đầm phá.", "D. thị trường tiêu thụ luôn ổn định."], a: "C" },
+    { q: "Câu 2: Vai trò quan trọng nhất của các lâm trường ở Bắc Trung Bộ là", type: "mc", opts: ["A. khai thác đi đôi với tu bổ, bảo vệ rừng.", "B. đẩy mạnh chế biến gỗ, sản xuất giấy.", "C. trồng rừng và quản lý rừng phòng hộ.", "D. mở rộng diện tích của rừng sản xuất."], a: "A" },
+    { q: "Câu 3: Việc trồng rừng ven biển ở Bắc Trung Bộ có tác dụng chủ yếu là", type: "mc", opts: ["A. hạn chế lũ lụt.", "B. chống lũ quét.", "C. chắn gió, bão.", "D. điều hoà nguồn nước."], a: "C" },
+    { q: "Câu 4: Ngành chăn nuôi ở Bắc Trung Bộ hiện nay", type: "mc", opts: ["A. chỉ phát triển chăn nuôi gia cầm.", "B. đang phát triển theo hướng hàng hoá.", "C. có số lượng đàn trâu lớn nhất nước ta.", "D. hiệu quả chăn nuôi rất cao và ổn định."], a: "B" },
+    { q: "Câu 5: Hạn chế lớn nhất về mặt tự nhiên trong phát triển nông nghiệp của vùng Bắc Trung Bộ là", type: "mc", opts: ["A. bão, lũ lụt, hạn hán.", "B. gió phơn khô nóng, bão cát.", "C. xâm nhập mặn, ngập úng.", "D. sóng lừng, sạt lở bờ biển."], a: "A" },
+    { q: "Câu 6: Ý nghĩa chủ yếu của việc trồng rừng ở thượng nguồn các con sông ở Bắc Trung Bộ là", type: "mc", opts: ["A. Cung cấp gỗ cho xuất khẩu, bảo vệ bờ biển.", "B. bảo vệ đa dạng sinh học.", "C. tạo môi trường sống cho loài sinh vật biển.", "D. hạn chế xảy ra lũ quét, chống xói mòn."], a: "B" },
+    { q: "Câu 7: Tài nguyên rừng Bắc Trung Bộ hiện nay", type: "mc", opts: ["A. Phân bố không đều, tập trung chủ yếu ở vùng ven biển.", "B. có diện tích rừng tràm, rừng ngập mặn lớn nhất nước ta.", "C. rừng tự nhiên chủ yếu tập trung ở vùng đồi núi phía tây.", "D. diện tích rừng nhỏ, tỉ lệ che phủ rừng thấp nhất cả nước."], a: "C" },
+    { q: "Câu 8: Đàn trâu được nuôi nhiều ở Bắc Trung Bộ chủ yếu do", type: "mc", opts: ["A. có điều kiện sinh thái thích hợp.", "B. lao động đông, nhiều kinh nghiệm.", "C. truyền thống chăn nuôi lâu đời.", "D. nhu cầu thị trường lớn."], a: "C" },
+    { q: "Câu 9: Thuận lợi chủ yếu để phát triển sản xuất cây công nghiệp lâu năm ở Bắc Trung Bộ là", type: "mc", opts: ["A. có đất cát pha ở vùng đồng bằng ven biển.", "B. có một số cơ sở công nghiệp chế biến.", "C. đất badan màu mỡ ở vùng đồi trước núi.", "D. lao động có nhiều kinh nghiệm sản xuất."], a: "C" },
+    { q: "Câu 10: Sản lượng bình quân lương thực đầu người ở Bắc Trung Bộ còn thấp chủ yếu do", type: "mc", opts: ["A. đất cát pha kém màu mỡ, nhiều thiên tai.", "B. lãnh thổ hẹp ngang, núi lan sát biển.", "C. thiếu lao động trình độ cao.", "D. sông ngòi ngắn dốc, địa hình hiểm trở"], a: "A" },
+    { q: "Câu 1 (Đúng/Sai): Địa hình và khí hậu Bắc Trung Bộ", type: "tf", a: "a-Đ, b-S, c-Đ, d-Đ" },
+    { q: "Câu 2 (Đúng/Sai): Thủy sản Bắc Trung Bộ và Duyên hải Nam Trung Bộ năm 2021", type: "tf", a: "a-Đ, b-S, c-Đ, d-S" },
+    { q: "Câu 1: Tính bình quân lương thực đầu người của Bắc Trung Bộ năm 2021 (kg/người)?", type: "sa", a: "353" },
+    { q: "Câu 2: Tính tỉ lệ diện tích rừng trồng của vùng năm 2021 (%)?", type: "sa", a: "29.7" },
+    { q: "Câu 3: Tính diện tích rừng tự nhiên ở Bắc Trung Bộ năm 2021 (nghìn ha)?", type: "sa", a: "2202" },
+    { q: "Câu 4: Năng suất lạc năm 2021 tăng bao nhiêu tạ/ha so với năm 2015?", type: "sa", a: "5" },
+    { q: "Câu 5: Cho biết số lượng đàn bò gấp mấy lần đàn trâu năm 2021?", type: "sa", a: "1.9" },
+
+    // BÀI 28
+    { topic: "BÀI 28. NAM TRUNG BỘ", type: "header" },
+    { q: "Câu 1: Đặc điểm nổi bật nhất về diện tích tự nhiên của vùng Nam Trung Bộ so với cả nước là gì?", type: "mc", opts: ["A. Vùng có diện tích tự nhiên nhỏ nhất nước ta.", "B. Vùng có diện tích chiếm khoảng 15% cả nước.", "C. Vùng có diện tích lớn nhất trong các vùng kinh tế.", "D. Vùng có diện tích tương đương với vùng Bắc Trung Bộ."], a: "C" },
+    { q: "Câu 2: Loại đất nào sau đây chiếm ưu thế tại các cao nguyên phía tây vùng Nam Trung Bộ?", type: "mc", opts: ["A. Đất phù sa màu mỡ.", "B. Đất cát ven biển.", "C. Đất badan.", "D. Đất mặn, đất phèn."], a: "C" },
+    { q: "Câu 3: Nhà máy thủy điện nào trên lưu vực sông Sê San có công suất lớn nhất vùng Nam Trung Bộ?", type: "mc", opts: ["A. Thủy điện Sê San 3.", "B. Thủy điện Sê San 4.", "C. Thủy điện Buôn Kuốp.", "D. Thủy điện Ialy."], a: "D" },
+    { q: "Câu 4: Loại cây công nghiệp lâu năm nào có diện tích trồng lớn nhất tại vùng Nam Trung Bộ?", type: "mc", opts: ["A. Cây cao su.", "B. Cây cà phê.", "C. Cây hồ tiêu.", "D. Cây điều."], a: "B" },
+    { q: "Câu 5: Tại sao vùng Nam Trung Bộ có điều kiện thuận lợi nhất nước ta để phát triển năng lượng tái tạo?", type: "mc", opts: ["A. Do có hệ thống sông ngòi ngắn, dốc và lưu lượng nước lớn.", "B. Do cường độ bức xạ lớn, nhiều nắng và gió mạnh, ổn định.", "C. Do địa hình cao nguyên xếp tầng thuận lợi cho việc đặt pin.", "D. Do có nguồn khoáng sản bô-xít dồi dào để sản xuất thiết bị."], a: "A" },
+    { q: "Câu 6: Việc hình thành các vùng chuyên canh cây công nghiệp lâu năm ở phía Tây của vùng Nam Trung Bộ chủ yếu dựa trên lợi thế nào?", type: "mc", opts: ["A. Đất phù sa cổ màu mỡ kết hợp với nguồn nước ngầm dồi dào.", "B. Đất badan màu mỡ trên các mặt bằng cao nguyên xếp tầng.", "C. Khí hậu nhiệt đới ẩm có sự phân hóa rõ rệt theo độ cao.", "D. Nguồn lao động có kinh nghiệm trong việc trồng cây cận nhiệt."], a: "B" },
+    { q: "Câu 7: Ý nghĩa quan trọng nhất của việc xây dựng các hồ thủy điện ở vùng Nam Trung Bộ là gì?", type: "mc", opts: ["A. Cung cấp điện năng và phục vụ hoạt động du lịch sinh thái.", "B. Điều tiết nước, hạn chế lũ lụt và cấp nước tưới cho cây trồng.", "C. Tạo ra diện tích mặt nước rộng lớn để nuôi trồng thủy sản.", "D. Thay đổi hoàn toàn cảnh quan thiên nhiên của các vùng núi."], a: "B" },
+    { q: "Câu 8: Tại sao ngành du lịch biển - đảo là sản phẩm du lịch có sức cạnh tranh cao nhất của vùng Nam Trung Bộ?", type: "mc", opts: ["A. Do có nhiều bãi biển đẹp, vịnh kín gió và nắng ấm quanh năm.", "B. Do hệ thống cảng hàng không quốc tế tập trung mật độ cao.", "C. Do đây là nơi duy nhất có các đảo và quần đảo xa bờ của nước ta.", "D. Do sự đa dạng về bản sắc văn hóa của cộng đồng các dân tộc."], a: "A" },
+    { q: "Câu 9: Hạn chế lớn nhất về mặt tự nhiên đối với sản xuất nông nghiệp vào mùa khô ở vùng Nam Trung Bộ là gì?", type: "mc", opts: ["A. Hiện tượng ngập lụt diện rộng do các cơn bão mạnh gây ra.", "B. Tình trạng đất bị bạc màu và xói lở nghiêm trọng ở miền núi.", "C. Hạn hán, thiếu nước và nguy cơ sa mạc hóa ở một số khu vực.", "D. Sự xâm nhập mặn sâu vào đất liền làm chết các loại cây trồng."], a: "C" },
+    { q: "Câu 10: Việc đẩy mạnh đánh bắt xa bờ ở Nam Trung Bộ có ý nghĩa chiến lược như thế nào về mặt an ninh quốc phòng?", type: "mc", opts: ["A. Giúp giảm bớt áp lực khai thác lên nguồn lợi thủy sản ven bờ.", "B. Khẳng định và bảo vệ chủ quyền vùng biển, hải đảo của Tổ quốc.", "C. Tạo ra nhiều mặt hàng xuất khẩu có giá trị kinh tế cao cho vùng.", "D. Thúc đẩy quá trình đô thị hóa diễn ra nhanh hơn ở ven biển."], a: "B" }
+];
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    quizData.forEach((item, i) => {
+        if (item.type === "header") {
+            container.innerHTML += `<h2>${item.topic}</h2>`;
+            return;
+        }
+
+        let html = `<div class="q-block"><span class="q-text">${item.q}</span>`;
+        
+        if (item.type === "mc") {
+            html += `<div class="options">`;
+            item.opts.forEach((opt, idx) => {
+                html += `<label><input type="radio" name="q${i}" value="${opt[0]}"> ${opt}</label>`;
+            });
+            html += `</div>`;
+        } else if (item.type === "tf") {
+            html += `<div style="padding: 10px; border: 1px solid #eee; border-radius: 5px;">
+                        <p style="font-size:0.9rem; color:#666">Nhập đáp án (ví dụ: a-Đ, b-S...)</p>
+                        <input type="text" class="sa-input" id="tf${i}" placeholder="a-..., b-...">
+                     </div>`;
+        } else if (item.type === "sa") {
+            html += `<input type="text" class="sa-input" id="sa${i}" maxlength="4" placeholder="Nhập số...">`;
+        }
+
+        html += `<div class="ans-box" id="ans${i}">Đáp án: ${item.a}</div>
+                 <button class="btn-check" onclick="showAns(${i})">Kiểm tra</button></div>`;
+        container.innerHTML += html;
+    });
+}
+
+function showAns(id) {
+    document.getElementById(`ans${id}`).style.display = 'block';
+}
+
+function toggleAll() {
+    const boxes = document.querySelectorAll('.ans-box');
+    const isVisible = boxes[0].style.display === 'block';
+    boxes.forEach(box => box.style.display = isVisible ? 'none' : 'block');
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
